@@ -28,9 +28,9 @@ The goals / steps of this project are the following:
 
 [30]: ./new_images/full_size/30kph_1.jpg "Traffic Sign 1"
 [50]: ./new_images/full_size/50kph_2.jpg "Traffic Sign 2"
-[yield]: ./new_images/full_size/yield_13.jpg "Traffic Sign 3"
-[slip]: ./new_images/full_size/slippery_23.jpg "Traffic Sign 4"
-[right]: ./new_images/full_size/turnright_33.jpg "Traffic Sign 5"
+[yield]: ./new_images/full_size/yield_13.JPG "Traffic Sign 3"
+[slip]: ./new_images/full_size/slippery_23.JPG "Traffic Sign 4"
+[right]: ./new_images/full_size/turnright_33.JPG "Traffic Sign 5"
 
 
 ### Data Set Summary & Exploration
@@ -72,10 +72,7 @@ The preprocessing can be split into the following steps:
 
 Let's have a look at each step in the plot below:
 
-![alt text][sample]
-![alt text][gray]
-![alt text][histeq]
-![alt text][noise]
+![alt text][sample] ![alt text][gray] ![alt text][histeq] ![alt text][noise]
 ![alt text][final]
 
 #### 2. Model description
