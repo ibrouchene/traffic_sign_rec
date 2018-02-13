@@ -19,9 +19,10 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
+[training_hist]: ./report/training_hist.jpg "Visualization"
+[validation_hist]: ./report/validation_hist.jpg "Grayscaling"
+[test_hist]: ./report/test_hist.jpg "Random Noise"
+
 [image4]: ./examples/placeholder.png "Traffic Sign 1"
 [image5]: ./examples/placeholder.png "Traffic Sign 2"
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
@@ -40,22 +41,30 @@ You're reading it! and here is a link to my [project code](https://github.com/ud
 
 ### Data Set Summary & Exploration
 
-#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+#### 1. Basic summary of the dataset
 
-I used the pandas library to calculate summary statistics of the traffic
+I used standard python & the numpy library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is 34799
+* The size of the validation set is 12630
+* The size of test set is 4410
+* The shape of a traffic sign image is (32, 32, 3)
+* The number of unique classes/labels in the data set is 43
 
 #### 2. Include an exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Let's have a look at the sign distributions in the training, validation and test sets:
 
-![alt text][image1]
+![alt text][training_hist]
+
+![alt text][validation_hist]
+
+![alt text][test_hist]
+
+We can see that some traffic signs are much more frequent than others (for instance the max speed 20 kph is 10 times less present than the very common 30 kph speed limit sign. I've never seen a 20kph max speed sign in 7 years in Germany ;-) ).
+However the data distribution is very similar accross all data sets (training, validation and evaluation).
+It would be interesting to see if the neural network performs better for the most frequently represented signs in the data set.
 
 ### Design and Test a Model Architecture
 
