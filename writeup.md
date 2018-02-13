@@ -157,7 +157,7 @@ Here are the top 5 softmax probabilities for each new sign:
 * 30kph
 
 | Label | Name | Probability |
-|:---------------------:|:---------------------------------------------:| 
+|:---------------------:|:-----------------:|:----------------------------:| 
 | 1 | 30 km/h | .94 |
 | 2 | 50 km/h | .05 |
 | 0 | 20 km/h | 0 |
@@ -167,7 +167,7 @@ Here are the top 5 softmax probabilities for each new sign:
 * 50kph
 
 | Label | Name | Probability |
-|:---------------------:|:---------------------------------------------:| 
+|:---------------------:|:-----------------:|:----------------------------:| 
 | 2 | 50 km/h | .71 |
 | 5 | 80 km/h | .23 |
 | 1 | 30 km/h | .03 |
@@ -177,7 +177,7 @@ Here are the top 5 softmax probabilities for each new sign:
 * yield
 
 | Label | Name | Probability |
-|:---------------------:|:---------------------------------------------:| 
+|:---------------------:|:-----------------:|:----------------------------:| 
 | 13 | Yield | 1 |
 | 35 | Ahead only | 0 |
 | 38 | Keep right | 0 |
@@ -187,7 +187,7 @@ Here are the top 5 softmax probabilities for each new sign:
 * slippery road
 
 | Label | Name | Probability |
-|:---------------------:|:---------------------------------------------:| 
+|:---------------------:|:-----------------:|:----------------------------:| 
 | 23 | Sliperry road | .88 |
 | 19 | Dangerous left curve | .10 |
 | 31 | Wild animals crossing | .01 |
@@ -197,7 +197,7 @@ Here are the top 5 softmax probabilities for each new sign:
 * right only
 
 | Label | Name | Probability |
-|:---------------------:|:---------------------------------------------:| 
+|:---------------------:|:-----------------:|:----------------------------:| 
 | 33 | Turn right ahead | 1 |
 | 39 | Keep left | 0 |
 | 37 | Go straight or right | 0 |
