@@ -2,8 +2,6 @@
 
 ## Writeup
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Build a Traffic Sign Recognition Project**
@@ -19,25 +17,21 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[training_hist]: ./report/training_hist.jpg "Visualization"
-[validation_hist]: ./report/validation_hist.jpg "Grayscaling"
-[test_hist]: ./report/test_hist.jpg "Random Noise"
+[training_hist]: ./report/training_hist.jpg "Training hist"
+[validation_hist]: ./report/validation_hist.jpg "Validation hist"
+[test_hist]: ./report/test_hist.jpg "Test hist"
+[sample]: ./report/sampleimage.jpg "Sample"
+[gray]: ./report/grayscale.jpg "Gray"
+[histeq]: ./report/eq.jpg "Histeq"
+[noise]: ./report/ns.jpg "Noise"
+[final]: ./report/final.jpg "Final"
 
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[30]: ./new_images/full_size/30kph_1.jpg "Traffic Sign 1"
+[50]: ./new_images/full_size/50kph_2.jpg "Traffic Sign 2"
+[yield]: ./new_images/full_size/yield_13.jpg "Traffic Sign 3"
+[slip]: ./new_images/full_size/slippery_23.jpg "Traffic Sign 4"
+[right]: ./new_images/full_size/turnright_33.jpg "Traffic Sign 5"
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
-
----
-### Writeup / README
-
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ### Data Set Summary & Exploration
 
@@ -52,7 +46,7 @@ signs data set:
 * The shape of a traffic sign image is (32, 32, 3)
 * The number of unique classes/labels in the data set is 43
 
-#### 2. Include an exploratory visualization of the dataset.
+#### 2. Visualization of the dataset
 
 Let's have a look at the sign distributions in the training, validation and test sets:
 
@@ -68,79 +62,78 @@ It would be interesting to see if the neural network performs better for the mos
 
 ### Design and Test a Model Architecture
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+#### 1. Preprocessing
 
-As a first step, I decided to convert the images to grayscale because ...
+The preprocessing can be split into the following steps:
+- Convert image to grayscale: Even though intuitively one may think that the color plays an important role in classifiying traffic signs, experimental results have shown that it was not necessarly the case. Therefore, to speed up the preprocessing process I decided to convert the images to grayscale.
+- Perform histogram equalization: Some images from the training set have poor contrast, as a consequence I decided to add this step in the preprocessing routine.
+- Add noise to the image: The network shall be applied to a number of images, coming from a diverse set of Cameras. In order to represent this diversity in the quality of the images, white noise was added to the image (+- 5). Such a step is also mentionned/recommended in the paper from Sermanet & LeCun.
+- Normalize the image: Last step is normalizing the image, as required.
 
-Here is an example of a traffic sign image before and after grayscaling.
+Let's have a look at each step in the plot below:
 
-![alt text][image2]
+![alt text][sample]
+![alt text][gray]
+![alt text][histeq]
+![alt text][noise]
+![alt text][final]
 
-As a last step, I normalized the image data because ...
-
-I decided to generate additional data because ... 
-
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
-
-#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
-
-My final model consisted of the following layers:
+#### 2. Model description
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Input         		| 32x32x1 grayscale preprocessed image   							| 
+| Convolution 5x5     	| 1x1 stride, valid padding, outputs 28x28x6 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
+| Drop out           | 0.7 keep prob |
+| Convolution 5x5     	| 1x1 stride, valid padding, outputs 10x10x16 	|
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x16 				|
+| Flatten            | Output 400 |
+| Drop out           | 0.7 keep prob |
+| Fully connected		| Output 120        									|
+| RELU					|												|
+| Drop out           | 0.7 keep prob |
+| Fully connected		| Output 84        									|
+| RELU					|												|
+| Drop out           | 0.7 keep prob |
+| Fully connected		| Output 43        									|
+
  
+#### 3. Parameters used
 
+Optimizer: Adam
+Batch size: 128
+Epochs: 50
+Learning rate: 0.00025
+Avg and Std for the initial weights: 0 and 0.1
+Retain probability for drop out: 0.7
 
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 4. How I found the solution
 
-To train the model, I used an ....
+As one can easily recognize, my model is based on the LeNet5 architecture from the lab. It has proven to be already pretty good for the task of classifiying traffic signs. 
 
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+I tried several approaches in order to improve the performance of the LeNet5 for the required task. The first approach was to tune the preprocessing step in order to see what could be done there. What was in any case required was the normalization step. On top of that, I have compared the performance of the network on color and grayscale images. The difference was so minimal that I decided to continue the process only with grayscale images, since it speeds up the preprocessing process. After having seen a couple of sample images from the training set, I have decided to add a histogram equalization step in order to handle images with different contrasts. And finally adding noise to the training set prooved to be efficient in reducing over fitting.
+
+To further reduce overfitting, I have decided to apply the dropout regularization technique. The idea behind it is to force the network to handle cases were some features are missing from the image (blurry edges, partially cropped sign etc...). Initially only at the input layer, later on each hidden layer too. Retaining probability was set to 0.7, and I have played around with the learning rate in order to optimize the performance of the network. Srivastavas' paper [insert_link] about dropout recommends in the Appendix that the learning rate be 10 to 100 times higher than the one from a standard network, which I have tried to apply. 
+
+Pretty quickly I have reached a performance that was passing the minimal requirements, but I have unfortunately not had the time to try other architectures.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+* validation set accuracy of 94% (passes the minimal threshold of 93%)
+* test set accuracy of 92%
 
 ### Test a Model on New Images
 
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Chosen imates
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][30] ![alt text][50] ![alt text][yield] 
+![alt text][slip] ![alt text][right]
 
-The first image might be difficult to classify because ...
+All except the first image are actually cropped images from the google street view camera, which I thought would be representative enough in our case. 3 very common signs were chosen (30, 50 and yield) and two more rare images (sliperry road and right turn only). The slippery road and the right turn only signs are under represented in the training catalogue, as seen in the histograms above. I was curious to see if the network would still be able to correctly classify them. Before feeding them to the network the images were resized to fit the expected 32x32x1 shape.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -148,33 +141,66 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
+| 30 km/h      		| 30 km/h     									| 
+| 50 km/h     			| 50 km/h  										|
 | Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
 | Slippery Road			| Slippery Road      							|
+| Right only	      		| Right only					 				|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+The model was able to correctly guess all of the 5 traffic signs, which gives an accuracy of 100%. This compares favorably to the accuracy on the test set of approx 92%.
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The code for making predictions on my final model is located in the 14th cell of the Ipython notebook.
 
-| Probability         	|     Prediction	        					| 
+Here are the top 5 softmax probabilities for each new sign:
+
+* 30kph
+| Label | Name | Probability
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1 | 30 km/h | .94 |
+| 2 | 50 km/h | .05 |
+| 0 | 20 km/h | 0 |
+| 5 | 80 km/h | 0 |
+| 6 | end of 80 km/h | 0 |
+
+* 50kph
+| Label | Name | Probability
+|:---------------------:|:---------------------------------------------:| 
+| 2 | 50 km/h | .71 |
+| 5 | 80 km/h | .23 |
+| 1 | 30 km/h | .03 |
+| 3 | 60 km/h | .02 |
+| 4 | 70km/h | 0 |
+
+* yield
+| Label | Name | Probability
+|:---------------------:|:---------------------------------------------:| 
+| 13 | Yield | 1 |
+| 35 | Ahead only | 0 |
+| 38 | Keep right | 0 |
+| 3 | 60 km/h | 0 |
+| 12 | Priority road | 0 |
+
+* slippery road
+| Label | Name | Probability
+|:---------------------:|:---------------------------------------------:| 
+| 23 | Sliperry road | .88 |
+| 19 | Dangerous left curve | .10 |
+| 31 | Wild animals crossing | .01 |
+| 21 | Double curve | .01 |
+| 30 | Beware of ice | 0 |
+
+* right only
+| Label | Name | Probability
+|:---------------------:|:---------------------------------------------:| 
+| 33 | Turn right ahead | 1 |
+| 39 | Keep left | 0 |
+| 37 | Go straight or right | 0 |
+| 35 | Ahead only | 0 |
+| 11 | Right of way | 0 |
 
 
-For the second image ... 
-
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
-
-
+One can notice that the top softmax probabilites for the speed limit signs are always related to other speed limit signs. Surprising is also the fact that the network is absolutely sure in it's classification for the yield and right only sign. The rest of the max probabilities are also pretty high (71% is the lowest, for 50 km/h). In conclusion the network performs excellently on the set of new images, and doesn't over fit the training data.
