@@ -155,7 +155,8 @@ The code for making predictions on my final model is located in the 14th cell of
 Here are the top 5 softmax probabilities for each new sign:
 
 * 30kph
-| Label | Name | Probability
+
+| Label | Name | Probability |
 |:---------------------:|:---------------------------------------------:| 
 | 1 | 30 km/h | .94 |
 | 2 | 50 km/h | .05 |
@@ -164,7 +165,8 @@ Here are the top 5 softmax probabilities for each new sign:
 | 6 | end of 80 km/h | 0 |
 
 * 50kph
-| Label | Name | Probability
+
+| Label | Name | Probability |
 |:---------------------:|:---------------------------------------------:| 
 | 2 | 50 km/h | .71 |
 | 5 | 80 km/h | .23 |
@@ -173,7 +175,8 @@ Here are the top 5 softmax probabilities for each new sign:
 | 4 | 70km/h | 0 |
 
 * yield
-| Label | Name | Probability
+
+| Label | Name | Probability |
 |:---------------------:|:---------------------------------------------:| 
 | 13 | Yield | 1 |
 | 35 | Ahead only | 0 |
@@ -182,7 +185,8 @@ Here are the top 5 softmax probabilities for each new sign:
 | 12 | Priority road | 0 |
 
 * slippery road
-| Label | Name | Probability
+
+| Label | Name | Probability |
 |:---------------------:|:---------------------------------------------:| 
 | 23 | Sliperry road | .88 |
 | 19 | Dangerous left curve | .10 |
@@ -191,7 +195,8 @@ Here are the top 5 softmax probabilities for each new sign:
 | 30 | Beware of ice | 0 |
 
 * right only
-| Label | Name | Probability
+
+| Label | Name | Probability |
 |:---------------------:|:---------------------------------------------:| 
 | 33 | Turn right ahead | 1 |
 | 39 | Keep left | 0 |
